@@ -135,6 +135,30 @@ def merge_sort(draw_info, ascending=True):
     yield from divide(0, len(lst) - 1)
     return lst
 
+# Quick sort implementation
+def quick_sort(draw_info, ascending=True):
+    lst = draw_info.lst
+    def partition(start, end):
+        pivot = lst[end]
+        i = start - 1
+        for j in range(start, end):
+            if (lst[j] <= pivot if ascending else lst[j] >= pivot):
+                i += 1
+                lst[i], lst[j] = lst[j], lst[i]
+                draw_list(draw_info, {i: draw_info.RED, j: draw_info.GREEN}, True)
+                yield True
+        lst[i + 1], lst[end] = lst[end], lst[i + 1]
+        draw_list(draw_info, {i + 1: draw_info.RED, end: draw_info.GREEN}, True)
+        yield True
+        return i + 1
+    def quick_sort_helper(start, end):
+        if start >= end:
+            return
+        pivot_index = yield from partition(start, end)
+        yield from quick_sort_helper(start, pivot_index - 1)
+        yield from quick_sort_helper(pivot_index + 1, end)
+    yield from quick_sort_helper(0, len(lst) - 1)
+    return lst
 
 # Main function to handle the event loop and user interaction
 def main():
