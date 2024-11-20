@@ -160,6 +160,21 @@ def quick_sort(draw_info, ascending=True):
     yield from quick_sort_helper(0, len(lst) - 1)
     return lst
 
+
+# Bogo sort implementation
+def bogo_sort(draw_info, ascending=True):
+    lst = draw_info.lst
+    def is_sorted():
+        for i in range(len(lst) - 1):
+            if (lst[i] > lst[i + 1] if ascending else lst[i] < lst[i + 1]):
+                return False
+        return True
+    while not is_sorted():
+        random.shuffle(lst)
+        draw_list(draw_info, {}, True)
+        yield True
+    return lst
+
 # Main function to handle the event loop and user interaction
 def main():
     run = True
