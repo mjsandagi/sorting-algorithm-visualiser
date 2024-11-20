@@ -1,6 +1,7 @@
 import pygame
 import random
 import math
+
 pygame.init()
 
 # Class to manage drawing and visualisation settings
