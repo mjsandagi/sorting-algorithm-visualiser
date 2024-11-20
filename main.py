@@ -238,7 +238,5 @@ def main():
                 sorting_algorithm_name = "Bogo Sort"
     pygame.quit()
 
-
-# Run the main function
 if __name__ == "__main__":
     main()
