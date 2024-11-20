@@ -6,19 +6,22 @@ pygame.init()
 
 # Class to manage drawing and visualisation settings
 class DrawInformation:
-    BLACK = (0, 0, 0)
+    DARKPURPLE = (44, 27, 48)
     WHITE = (255, 255, 255)
     ALICEBLUE = (240, 248, 255)
     GREEN = (0, 255, 0)
     RED = (255, 0, 0)
     GREY = (128, 128, 128)
-    BACKGROUND_COLOUR = BLACK
-    FONT_COLOUR = GREEN
+    BACKGROUND_COLOUR = DARKPURPLE
+    FONT_COLOUR = WHITE
+    # GREYS = [GREY, (160, 160, 160), (192, 192, 192) ] # Uncomment for greyscale bars
+    # GREYS = [GREY, GREY, GREY] # Uncomment For borderless bars
     GREYS = [
-        GREY,
-        (160, 160, 160),
-        (192, 192, 192)
+    (127, 108, 140),  
+    (173, 143, 194),  
+    (192, 171, 204)  
     ]
+
     FONT = pygame.font.SysFont("Cascadia Code", 18)
     LARGE_FONT = pygame.font.SysFont("Cascadia Code", 40)
     SIDE_PAD = 100
@@ -34,24 +37,22 @@ class DrawInformation:
         self.min_val = min(lst)
         self.max_val = max(lst)
         self.block_width = round((self.width - self.SIDE_PAD) / len(lst))
-        self.block_height = math.floor((self.height - self.TOP_PAD) / (self.max_val - self.min_val))
+        self.block_height = math.floor(((self.height - self.TOP_PAD) / (self.max_val - self.min_val))) * 1.2
         self.start_x = self.SIDE_PAD // 2
-
 
 # Function to draw the interface
 def draw(draw_info, algorithm_name, ascending):
     draw_info.window.fill(draw_info.BACKGROUND_COLOUR)
-    title = draw_info.LARGE_FONT.render(f"{algorithm_name} - {'Ascending' if ascending else 'Descending'}", 1, draw_info.FONT_COLOUR)
-    draw_info.window.blit(title, (draw_info.width / 2 - title.get_width() / 2, 5))
+    title = draw_info.LARGE_FONT.render(f"{'Ascending' if ascending else 'Descending'} {algorithm_name}", 1, draw_info.FONT_COLOUR)
+    draw_info.window.blit(title, (draw_info.width / 2 - title.get_width() / 2, 10))
     controls = draw_info.FONT.render(
-        "R - Reset | SPACE - Start Sorting | A - Ascending | D - Descending", 1, draw_info.FONT_COLOUR)
-    draw_info.window.blit(controls, (draw_info.width / 2 - controls.get_width() / 2, 50))
+        "(R)eset ~ (S)PACE - Start Sorting ~ (A)scending ~ (D)escending", 1, draw_info.FONT_COLOUR)
+    draw_info.window.blit(controls, (draw_info.width / 2 - controls.get_width() / 2, 60))
     sorting = draw_info.FONT.render(
-        "I - Insertion Sort | B - Bubble Sort | M - Merge Sort | Q - Quick Sort | O - Bogo Sort", 1, draw_info.FONT_COLOUR)
-    draw_info.window.blit(sorting, (draw_info.width / 2 - sorting.get_width() / 2, 75))
+        "(I)nsertion Sort ~ (B)ubble Sort ~ (M)erge Sort ~ (Q)uick Sort ~ B(o)go Sort", 1, draw_info.FONT_COLOUR)
+    draw_info.window.blit(sorting, (draw_info.width / 2 - sorting.get_width() / 2, 85))
     draw_list(draw_info)
     pygame.display.update()
-
 
 # Function to draw the list as vertical bars
 def draw_list(draw_info, colour_positions={}, clear_background=False):
@@ -70,14 +71,11 @@ def draw_list(draw_info, colour_positions={}, clear_background=False):
     if clear_background:
         pygame.display.update()
 
-
 # Function to generate a random list of integers
 def generate_starting_list(n, min_val, max_val):
     lst = [random.randint(min_val, max_val) for _ in range(n)]
     return lst
 
-
-# Bubble sort implementation
 def bubble_sort(draw_info, ascending=True):
     lst = draw_info.lst
     for i in range(len(lst) - 1):
@@ -91,8 +89,6 @@ def bubble_sort(draw_info, ascending=True):
                 yield True
     return lst
 
-
-# Insertion sort implementation
 def insertion_sort(draw_info, ascending=True):
     lst = draw_info.lst
     for i in range(1, len(lst)):
@@ -109,7 +105,6 @@ def insertion_sort(draw_info, ascending=True):
             yield True
     return lst
 
-# Merge sort implementation
 def merge_sort(draw_info, ascending=True):
     lst = draw_info.lst
     def merge(start, mid, end):
@@ -136,7 +131,7 @@ def merge_sort(draw_info, ascending=True):
     yield from divide(0, len(lst) - 1)
     return lst
 
-# Quick sort implementation
+
 def quick_sort(draw_info, ascending=True):
     lst = draw_info.lst
     def partition(start, end):
@@ -162,7 +157,6 @@ def quick_sort(draw_info, ascending=True):
     return lst
 
 
-# Bogo sort implementation
 def bogo_sort(draw_info, ascending=True):
     lst = draw_info.lst
     def is_sorted():
@@ -194,7 +188,7 @@ def main():
     sorting_algorithm_generator = None
 
     while run:
-        clock.tick(200)
+        clock.tick(300) # Essentially the refresh rate in Hz. Change this value to change the speed of sorting. 
 
         if sorting:
             try:
