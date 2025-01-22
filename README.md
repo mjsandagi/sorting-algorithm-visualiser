@@ -48,7 +48,7 @@ Merge Sort is an efficient, stable, comparison-based, divide and conquer sorting
 
 ### Quick Sort
 
-Quick Sort is an efficient, in-place, comparison-based, divide and conquer sorting algorithm. It works by selecting a 'pivot' element from the array and partitioning the other elements into two sub-arrays, according to whether they are less than or greater than the pivot.
+Quick Sort is an efficient, in-place, comparison-based, divide and conquer sorting algorithm. It works by selecting a "pivot" element from the array and partitioning the other elements into two sub-arrays, according to whether they are less than or greater than the pivot.
 
 ### Bogo Sort
 
